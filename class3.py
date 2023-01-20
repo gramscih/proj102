@@ -95,4 +95,4 @@ with open('txt_for_class3.txt') as file:
 
 
 
-# Dictionary
+print(__name__ == '__main__')
