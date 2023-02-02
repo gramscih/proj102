@@ -57,7 +57,7 @@ class CustomerSupport:
         print(f"Issue: {ticket.issue}")
         print("============================")
 
-app = CustomerSupport(RandomOrderingStrategy())
+app = CustomerSupport(FIFOOrderingStrategy())
 
 app.create_ticket("John Snow", "My computer make strange sounds!!!")
 app.create_ticket("Sebastian Santos", "I can't upload any videos, help me!!!")
