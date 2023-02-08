@@ -10,22 +10,31 @@ import consumer
 
 
 class Product:
-    def __init__(self, id, title, price, description, category, img, rating) -> None:
+    def __init__(self, id, title, price, description, category, img) -> None:
         self.id = id
         self.title = title
         self.price = price
         self.description = description
         self.category = category
         self.img = img
-        self.rating = rating
+        self.rating = 0
 
-    def create(self):
-        pass
+    def create(self, logger=None):
+        json_product = {
+            "title": self.title,
+            "price": self.price,
+            "description": self.description,
+            "category": self.category,
+            "image": self.img,
+        }
+
+        consumer.create("products", json_product, logger)
 
     @staticmethod
-    def read():
+    def read(logger=None):
+        logger.debug("read: products from API")
         result = []
-        products = consumer.read("products")
+        products = consumer.read("products", logger)
         for product in products.json():
             new_product = Product(
                 product["id"],
@@ -34,10 +43,9 @@ class Product:
                 product["description"],
                 product["category"],
                 product["image"],
-                product["rating"],
             )
             result.append(new_product)
-
+        logger.debug(f"read: products from API result: [{result}]")
         return result
 
     def update(self):

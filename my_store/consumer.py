@@ -1,28 +1,27 @@
 import requests
 import custom_exceptions
-import logging
 
-URL = "https://akestoreapi.com/"
-
-logging.basicConfig(level=logging.WARNING)
+URL = "https://fakestoreapi.com/"
 
 
-def create(path, data):
-    pass
+def create(path, data_to_add, logger=None):
+    logger.debug(f"Creating {path}...")
+    result = requests.post(f"{URL}{path}", data=data_to_add)
+    logger.debug(f"{path} Created [{result}]")
 
 
-def read(path):
-    logging.debug(f"Starting collect data from {URL}")
+def read(path, logger=None):
+    logger.debug(f"Starting collect data from {URL}")
     data = None
     try:
         data = requests.get(f"{URL}{path}")
-        logging.debug(f"Data [{data}] collected from {URL}")
+        logger.debug(f"Data [{data}] collected from {URL}")
     except requests.exceptions.ConnectionError as cerr:
-        logging.error(cerr)
+        logger.error(cerr)
         raise custom_exceptions.InvalidURlException(
             f"An invalid URL was provided: [{URL}]"
         )
     except Exception as err:
         print(f"Something when wrong: [{type(err)}]")
-    logging.debug(f"Ended collection data...")
+    logger.debug(f"Ended collection data...")
     return data
